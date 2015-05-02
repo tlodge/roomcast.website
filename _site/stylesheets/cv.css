@@ -1,0 +1,60 @@
+.about {
+	padding-top: 15px;
+	padding-bottom: 15px;
+    margin: 1.25rem 0 1.1875rem;
+    line-height: 1.7;
+    font-size: 120%;
+}
+
+.emphasis{
+	font-weight: bold;
+	font-size: 120%;
+}	
+
+.colourbar{
+	height: 15px;
+}
+.red{
+	background: #d35a51;
+}	
+
+.yellow{
+	background: #e5cf58;
+}
+
+.blue{
+	background: #445662;
+}
+
+.grey{
+	background: #3f3b3c;
+}
+
+.lightblue{
+	background: #7bb6a4;
+}
+
+.residents{
+	background: #ececec;
+}
+
+.title{
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 150%;
+	padding: 20px;
+}
+
+li.benefit{
+	padding: 15px 0px 15px 0px;
+	line-height: 1.7;
+}
+
+.imagecol{
+	text-align: center;
+}
+
+.roomcast{
+	color: #445662;
+	font-weight: bold;
+}
