@@ -4,7 +4,7 @@ layout: post
 ---
 <div class="row">
   <div class="large-4 columns">
-    <img src="../assets/img/buildinggraph.png"/>
+    <img src=<"{{site.baseurl}}/assets/img/buildinggraph.png"/>
   </div>
   <div class="large-6 columns">
     <p>Ok, slightly techie post this one.  Buildings are complex structures.  They have floors and apartments.  Each apartment may or may not have a neighbouring apartment, and may or may not have apartments above and below it.  When we were designing <strong>rooomcast</strong> we knew that it would be important to be able to talk about buildings in this way.  We could imagine many a scenario where it would be useful to get information about an apartment's location in relation to other things in the building.  So for example, it would be great to be able to get answers to questions like: which apartments are directly beneath <strong>B.3</strong>? or who are <strong>B.4's</strong> neighbours?</p>
