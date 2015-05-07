@@ -72,6 +72,9 @@ li.benefit{
 	color: #333333;
 	padding-top: 15px;
 	margin-top: 20px;
+	position: absolute;
+	bottom: 0;
+	height: 50px;
 }
 
 .address{
