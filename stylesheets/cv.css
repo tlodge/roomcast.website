@@ -43,6 +43,7 @@
 
 .management{
 	padding-top: 20px;
+
 }
 
 .title{
@@ -70,13 +71,8 @@ li.benefit{
 	width: 100%;
 	background: #ececec;
 	color: #333333;
-	position: absolute;
-	bottom: 0;
-	height: 60px;
-}
-
-.footer-content{
 	padding-top: 15px;
+	margin-top: 20px;
 }
 
 .address{
@@ -109,10 +105,4 @@ li.benefit{
 
 .next{
 	font-size: 120%;
-}
-
-.container{
-	min-height: 100%;
-	position: relative;
-
 }
