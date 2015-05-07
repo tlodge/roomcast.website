@@ -9,14 +9,14 @@
 .emphasis{
 	font-weight: bold;
 	font-size: 120%;
-}	
+}
 
 .colourbar{
 	height: 15px;
 }
 .red{
 	background: #d35a51;
-}	
+}
 
 .yellow{
 	background: #e5cf58;
@@ -34,15 +34,22 @@
 	background: #7bb6a4;
 }
 
+
 .residents{
 	background: #ececec;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.management{
+	padding-top: 20px;
 }
 
 .title{
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 150%;
-	padding: 20px;
+	padding-bottom: 20px;
 }
 
 li.benefit{
@@ -57,4 +64,44 @@ li.benefit{
 .roomcast{
 	color: #445662;
 	font-weight: bold;
+}
+
+.footer{
+	width: 100%;
+	background: #ececec;
+	color: #333333;
+	padding-top: 15px;
+	margin-top: 20px;
+}
+
+.address{
+	padding-top: 10px;
+}
+
+.b49logo{
+	background-image: url("../assets/img/block49logo.png");
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 40px;
+}
+
+.blogcontainer{
+	margin-bottom: 20px;
+}
+
+.pagination{
+	text-align: center;
+}
+
+.page_number{
+	font-size: 90%;
+	color: #333333;
+}
+
+.previous{
+	font-size: 120%;
+}
+
+.next{
+	font-size: 120%;
 }

@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/cv.css" />
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+  </head>
+  <body>
+ 	<div class="contain-to-grid sticky">
+  		<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
+  		  <ul class="title-area">
+           <li class="name">
+              <h1> <a href="#"> ROOMCAST </a></h1>
+            </li>
+        </ul>
+
+      	<section class="top-bar-section">
+				<ul class="right">
+					<li><a href="/roomcast">home</a></li>
+					<li class="divider"></li>
+					<li><a href="./blog">blog</a></li>
+					<li class="divider"></li>
+					<li><a href="/roomcast/assets/pdf/roomcastinfo.pdf">pdf</a></li>
+				</ul>
+			</section>
+		</nav>
+	</div>
+
+  <section id="blog">
+  <article>
+      <div class="row">
+        <div class="large-10 columns">
+          <h3> How to store a building </h3>
+          <h6> Written by <a href="#">tlodge</a> on a date </h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-5 columns">
+          <p> <div class="row">
+  <div class="large-4 columns">
+    <img src="../assets/img/buildinggraph.png" />
+  </div>
+  <div class="large-6 columns">
+    <p>Ok, slightly techie post this one.  Buildings are complex structures.  They have floors and apartments.  Each apartment may or may not have a neighbouring apartment, and may or may not have apartments above and below it.  When we were designing <strong>rooomcast</strong> we knew that it would be important to be able to talk about buildings in this way.  We could imagine many a scenario where it would be useful to get information about an apartment's location in relation to other things in the building.  So for example, it would be great to be able to get answers to questions like: which apartments are directly beneath <strong>B.3</strong>? or who are <strong>B.4's</strong> neighbours?</p>
+  </div>
+<div>
+
+<div class="row">
+  <div class="large-10 columns">
+
+    <p>It turns out that modeling these kind of relationships in a traditional database, whilst possible, is fairly challenging.  Traditional databases store information as tables of rows and columns. The spatial relationships that we we're talking about don't translate all that well to this format. </p>
+
+    <p>Fortunately, the world of social media has come to our rescue. Take Facebook, which is continually mining its users social graphs in a bunch of complex ways: which of Bob's friends of friends also liked this post?  Given that Alice knows Jane, who else might she know?  It's a similar problem.  Fortunately, in recent years people have been thinking about databases differently, and have been figuring out new ways to store information that is more appropriate to the kinds of queries that will be performed on it. </p>
+
+    And the one that solves our problems is the graph database.  It's brilliant for modeling not just buildings, but the residents who live in them, the owners, staff and the interactions between them.  Graph databases allow us to much more naturally structure the complex relationships between entities.  So now we can easily build a model that says Bob lives in apartment B.3 which is owned by John and which is adjacent to B.2 and above B.1 and on the second floor and in Block B and had a previous tenant called Katie and two problems with its intercom system and ...
+
+    <p>Anyway. <strong>Roomcast</strong> is built on a graph database.  And because of this we'll be talking about some pretty exciting new functionality in the future.</p>
+  </div>
+</div>
+</div></div>
+ </p>
+        </div>
+        <div class="large-5 columns">
+          <img src="http://placehold.it/400x240&text=[img]"/>
+        </div>
+      </div>
+  </article>
+</section>
+
+
+
+  <div class="footer">
+    <div class="row">
+      <div class="large-2 columns">
+        <div class="b49logo"></div>
+      </div>
+      <div class="large-8 columns">
+          <p class="text-right address">Block49 Suite 2 De Walden Court, 85 New Cavendish Street, W1W6AD</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/foundation/js/foundation.min.js"></script>
+  <script src="/js/app.js"></script>
+  </body>
+</html>
