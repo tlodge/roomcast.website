@@ -70,11 +70,13 @@ li.benefit{
 	width: 100%;
 	background: #ececec;
 	color: #333333;
-	padding-top: 15px;
-	margin-top: 20px;
 	position: absolute;
 	bottom: 0;
 	height: 60px;
+}
+
+.footer-content{
+	padding-top: 15px;
 }
 
 .address{
