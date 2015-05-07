@@ -108,3 +108,9 @@ li.benefit{
 .next{
 	font-size: 120%;
 }
+
+.container{
+	min-height: 100%;
+	position: relative;
+
+}
