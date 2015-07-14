@@ -6,7 +6,7 @@ layout: default
       <div class="row">
         <div class="large-10 columns">
           <h3> {{page.title}} </h3>
-          <h6> Written by <a href="#">tlodge</a> on {{page.date}} </h6>
+          <h6> Written by <a href="#">tlodge</a> on {{ page.date | date: "%-d %B %Y" }} </h6>
         </div>
       </div>
       <div class="row">
