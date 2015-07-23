@@ -14,7 +14,7 @@ layout: post
 <div class="row">
   <div class="large-10 columns">
 
-    <p> So what kinds of things can roomcast buttonise?  We've read through thousands of posts on many residental forums to figure out candidates.  We now have <strong>85</strong> examples of buttons that could exist in a residential development.  A button might simply serve up some up to date information, or it might perform an (arbitrarily complex) action. Here is the list as it stands: </p>
+    <p> So what kinds of things can roomcast buttonise?  We've read through thousands of posts on many residental forums to figure out candidates.  We now have <strong>86</strong> examples of buttons that could exist in a residential development.  A button might simply serve up some up to date information, or it might perform an (arbitrarily complex) action. Here is the list as it stands: </p>
 
     <p>
     <h5> Information Buttons </h5>
@@ -135,6 +135,7 @@ layout: post
               <li>Building waste removal</li>
               <li>Fob replacement</li>
               <li>Delivery Expected</li>
+              <li>Capital Gains Assessment</li>
             </ul>
         </li>
         <li>3rd Party Requests

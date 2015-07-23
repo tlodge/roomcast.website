@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/cv.css" />
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+  </head>
+  <body>
+ 	<div class="contain-to-grid sticky">
+  		<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
+  		  <ul class="title-area">
+           <li class="name">
+              <h1> <a href="#"> ROOMCAST </a></h1>
+            </li>
+        </ul>
+
+      	<section class="top-bar-section">
+				<ul class="right">
+					<li><a href="/">home</a></li>
+					<li class="divider"></li>
+					<li><a href="/blog">blog</a></li>
+					<li class="divider"></li>
+					<li><a href="/assets/pdf/roomcastinfo.pdf">pdf</a></li>
+				</ul>
+			</section>
+		</nav>
+	</div>
+
+  <section id="blog">
+  <article>
+      <div class="row">
+        <div class="large-10 columns">
+          <h3> Expressive building-based communication </h3>
+          <h6> Written by <a href="#">tlodge</a> on 23 July 2015 </h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-10 columns">
+          <p> <div class="row">
+  <div class="large-4 columns">
+    <img src="/assets/img/buttons.png" />
+  </div>
+  <div class="large-6 columns">
+    <p>One thing that makes roomcast powerful is its ability to route messages according to an expressive set of criteria.  To support this, our underlying graph database has a simple notion of AccessGroups.  An AccessGroup can be, for example,<i> all tenants </i> or <i> all owners </i> or all people on the <i> first floor </i>.  So when the system needs to send to all people on the first floor, it simply looks up the first floor Access Group and sends the message to all users that belong to it.  With the live communication (i.e. sending out messages to each user's button panel) - we create channels that correspond to AccessGroups.  So a user can be a part of the tenants channel, the first floor channel the 'male' channel and so on.   This makes it easy for us to broadcast messages - rather than loop through each user in an access group to send out a message, we can simply send a message to the channel that represents the access group.  So far so good.    
+  
+<div>
+
+<div class="row">
+  <div class="large-10 columns">
+    <p> It gets a little more complex when we want to build more expressive recipient lists.  Let's say we want to send a message to all female tenants and owners living on the first or second floor.  Hmmm.  Clearly we cannot simply broadcast a message to all of the access groups that are implicated (i.e. female, tenants, owners, first floor, second floor) - since this would unintended recipients (such as people on the first floor who are not female), instead we will need to send a message to people that are tenants <strong>OR</strong> owners <strong> AND </strong>female<strong>AND</strong>on the first <strong>OR</strong>second floor</p>.  The rule is simple - you <strong>OR</strong> the access groups that are of the same type and <strong>AND</strong> the access groups of different types. 
+    
+    <p>Once we have figured out which users satisfy our 'all female tenants and owners living on the first or second floor' criteria, we could, in theory, create a new access group and a new channel, to avoid having to loop through each user and send a message.  There are several things that make this complex - and for now - we think would make the system quite brittle.  First, what happens when a new user joins?  Currently, we'll simply add him or her to all relevant access groups.  But how would we know whether to add the user to our 'all female tenants and owners living on the first or second floor' access group, unless we knew the rules that were used to compose it in the first place? We have the same problem when a user leaves - how would we know which access groups to remove him or her from?  Second, if under a new setting, the system wishes to send a message to 'all female tenants and owners living on the first or second floor' - how do we know whether an access group already exists for this combination?  The only way to accomplish this (that we can think of) is to model these composite AccessGroups as a tree of rules from which they are constructed.  Then when a new user joins we can re-evaluate all of the rules of all of the composite access groups and determine whether this user should be a member.  But...it complicates our model quite considerably, and adds a whole bunch of new management code to handle these composite groups.  So for these reasons, we're not going to do this.  Instead, when messages are to be directed anything other than a single access group, we'll work out on the fly the list of recipients and send the message to each.  This will mean that communication will 'just work' regardless of when new users join and leave... 
+    </p>
+  </div>
+</div>
+</div></p></div></div>
+ </p>
+        </div>
+      </div>
+  </article>
+</section>
+
+
+
+  <div class="footer">
+    <div class="row">
+      <div class="large-2 columns">
+        <div class="b49logo"></div>
+      </div>
+      <div class="large-8 columns">
+          <p class="text-right address">Block49 Suite 2 De Walden Court, 85 New Cavendish Street, W1W6AD</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/foundation/js/foundation.min.js"></script>
+  <script src="/js/app.js"></script>
+  </body>
+</html>
