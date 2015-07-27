@@ -89,8 +89,6 @@ WITH cag, rulestosatisfy, user, length(FILTER(auser in collect(user)  WHERE ause
 WHERE counted = rulestosatisfy
 MATCH (u:User {userId:user})
 CREATE UNIQUE (u)-[:BELONGS_TO]->(cag);
-		 
-		 ````
 	</pre> 
 	</p>
   </div>
