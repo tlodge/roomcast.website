@@ -7,18 +7,77 @@ layout: post
     <img src="/assets/img/buildinggraph.png"/>
   </div>
   <div class="large-6 columns">
-    <p>One thing that makes roomcast powerful is its ability to route messages according to an expressive set of criteria.  To support this, our underlying graph database has a simple notion of AccessGroups.  An AccessGroup can be, for example,<i> all tenants </i> or <i> all owners </i> or all people on the <i> first floor </i>.  So when the system needs to send to all people on the first floor, it simply looks up the first floor Access Group and sends the message to all users that belong to it.  With the live communication (i.e. sending out messages to each user's button panel) - we create channels that correspond to AccessGroups. </p> 
+    <p> The ability to appropriately define and create discrete groups of users is a fundamental part of what makes <strong>roomcast<strong> so powerful. This blog visits some of our design decisions and relates them to the underlying code used to support them.  With <strong>roomcast</strong>, the communication system must make it easy for us to define groups of users in ways that makes sense to a residential development.  There are lots of quite complex ways that we might reason about an intended recipient.  Groups might be defined spatially : 'all the users living on the first floor' or 'all the users living on the second floors of block A and block B'.  But we might also might also wish to target users based on a particular attribute: 'the person who's registration number is XYZ ABC'.  Or it could be a combination of attributes: 'All female users living on the second floors of block A and block B'.  We could conceivably wish to reach out to users based upon spatial relationships, so for example all landlords of apartments directly beneath apartment 56.   Once we have this richness of expression, it will be easy to distribute buttons(and messages) to very select parts of the community.  This is a key part of what makes <strong> roomcast </strong> so flexible </p>
   </div>
 </div>
+<div class="row">
+  <div class="large-6 columns">
+	<p>
+		As a starting point, there are a bunch of core groups that users will be assigned to, dependent on who they are and where they live.  We know that we will sometimes want to differentiate between owners, tenants and residents (residents are all people that live it a building regardless of whether they own or rent it).  We know that we may also wish to differentiate between users based upon where their apartment is (i.e by block or by floor).   There may also be some basic attributes such as sex, age and length of tenancy that might also be useful.  Finally, when we think about 'spaces', rather than 'users', we might want to send buttons or messages to devices located in the lobby, next to the lifts, in the underground parking and so on.  Once we have these basic groups (which we call AccessGroups), we can simply join each user to those that they should belong to.
+	</p>
+  </div>
+
+  <div class="large-4 columns">
+	 <img src="/assets/img/accessgroups.png"/>
+  </div>
+</div>	
 
 <div class="row">
-  <div class="large-10 columns">
-  	
-  	<p> So a user can be a part of the tenants channel, the first floor channel the 'male' channel and so on.   This makes it easy for us to broadcast messages.  Rather than loop through each user in an access group to send out a message, we can simply send to the channel that represents the access group. So far so good. </p>
-  	
-    <p> It gets a little more complex when we want to build more expressive recipient lists.  Let's say we want to send a message to all female tenants and owners living on the first or second floor.  Hmmm.  Clearly we can't simply broadcast a message to all of the access groups that are implicated (i.e. female, tenants, owners, first floor, second floor) - since this would unintended recipients (such as people on the first floor who are not female). Breaking the intention down, we see that the audience is: tenants <strong> OR </strong> owners <strong> AND </strong> females <strong> AND </strong> on the first <strong> OR </strong> second floor. So we <strong>OR</strong> the access groups that are of the same type and <strong>AND</strong> the access groups of different types. </p>
-    
-    <p>Once we have figured out which users satisfy our 'all female tenants and owners living on the first or second floor' criteria, we could, in theory, create a new access group and a new corresponding channel.  There are several things that make this complicated and, without careful management, could make the system quite brittle.  First, what happens when a new user joins?  Currently, we'll simply add him or her to all relevant access groups.  But how would we know whether to add the user to our 'all female tenants and owners living on the first or second floor' access group, unless we remembered the rules that were used to compose this group when it was created?  Second, if sometime later, the system again wishes to send a message to 'all female tenants and owners living on the first or second floor' - how do we know whether an access group already exists for this combination?  One solution we played with was to model these 'composite' AccessGroups as a tree of rules from which they are constructed.  Then when a new user joins we can re-evaluate all of the rules of all of the composite access groups and determine whether this user should be a member.  But...it complicates our model quite considerably, and necessitates a bunch of new management code to handle these composite groups.  So for these reasons, we've decided it's not a good idea.  Instead, when messages are to be directed anything other than a single access group, we'll work the intended recipients out on the fly and send the message to each users' private channel.  For a smallish overhead, this will mean that communication will 'just work' without us having to match new users to composite groups when they join.
-    </p>
-  </div>
-</div>
+	<div class="large-10 columns">
+		 <p> Next is building in support for expressive recipient lists.  These can all be formed from combinations of the core Accessgroups.  Let's say we want to create a button that can only be used by female tenants and owners on the first or second floor of block A.  Clearly  it's not simply a case of sending a message to all of the access groups that are implicated (i.e. female, tenants, owners, first floor, second floor, block A) - since this would unintended recipients (such as people on the first floor who are not female). Instead, we need to break the intention down, into a set of rules joined together by ANDs and ORs: tenants <strong> OR </strong> owners <strong> AND </strong> females <strong> AND </strong> in block A <strong> AND </strong> on the first <strong> OR </strong> second floor. So we <strong>OR</strong> the access groups that are of the same type and <strong>AND</strong> the access groups of different types. </p>
+	</div>
+
+</div>  	
+
+<div class="row">
+	<div class="large-4 columns">
+		 <img src="/assets/img/accessgroups.png"/>
+	</div>
+	<div class="large-6 columns">
+		 <p> One problem we have is, once a button or message has been sent to one of these more complex access groups we need to make sure that we store all of the recipients, so that we can use it again and so that we know exactly who got a particular message or button.  One way of accomplishing this is to simply create a new AccessGroup with all the implicated users as members.  The problem with this is what happens when a new user joins?  We can easily add them to the relevant core access groups, but we can't know whether they should also belong to the more complex access groups unless we can somehow record the logic that was used to generate them in the first place. </p> 
+		 
+		 <p> To represent to rules that have been used to create one of these access groups, we can build a tree, with a root node.  All children of the root node will be ANDed together, and all children of those children will be ORed.  When a new user joins, we simply evaluate whether they exist in each of the AND branches (by ORing together all of the leaf nodes), and if they do, then they can be added.  To accomplish this with a cypher query, we do the following: for each of the AND branches, collect together all users that satisfy membership. Then return all users that are found at least once in each branch.  These are the users that satisfy the conditions of the rule.   In the following code we first create a bunch of rules which are just memberships of access groups.  We then create some CompositeAccessGroups - which are like AccessGroups except that they have a tree of the rules that were used to create them.  The final query shows how we then add the relevant users to the CompositeAccessGroups.
+		 </p>
+		 <p>
+		 ````
+//create sets of rule (combinations of access groups)
+CREATE  (owners)<-[:IN]-(t1:Rule {name:'ownersandtenants_rule'})-[:IN]->(tenants)
+CREATE  (firstfloor)<-[:IN]-(t2:Rule {name:'firstfloor_rule'})
+CREATE  (male)<-[:IN]-(t3:Rule {name:'male_rule'})
+CREATE  (female)<-[:IN]-(t4:Rule {name:'female_rule'})
+CREATE  (fourthfloor)<-[:IN]-(t5:Rule {name:'fourthfloor_rule'})
+
+//create an access group: male tenants and owners on the first floor
+CREATE  (cag1:CompositeAccessGroup {name:"male tenants and owners on first floor"})
+CREATE (cag1)-[:HAS_RULE]->(t1)
+CREATE (cag1)-[:HAS_RULE]->(t2)
+CREATE (cag1)-[:HAS_RULE]->(t3)
+
+//create an access group: female tenants and owners on the fourth floor
+CREATE  (cag2:CompositeAccessGroup {name:"female tenants and owners on the fourth floor"})
+CREATE (cag2)-[:HAS_RULE]->(t1)
+CREATE (cag2)-[:HAS_RULE]->(t4)
+CREATE (cag2)-[:HAS_RULE]->(t5);
+
+//now attach all relevant users to the compound access group.
+MATCH (cag:CompositeAccessGroup)-[:HAS_RULE]->(r1:Rule)
+WITH cag, collect(r1) as rules
+WITH cag, rules, length(rules) as rulestosatisfy
+UNWIND rules as rule
+MATCH rule-[:IN]->ag<-[:BELONGS_TO]-(u:User)
+WITH cag, rule, rulestosatisfy, collect(DISTINCT(u.userId)) as users
+WITH cag, rulestosatisfy, collect({rule:rule, users:users}) as rules
+UNWIND rules as users
+WITH cag, rulestosatisfy, EXTRACT (user in users.users | user) AS extracted
+UNWIND extracted as user
+WITH cag, rulestosatisfy, user, length(FILTER(auser in collect(user)  WHERE auser = user)) as counted
+WHERE counted = rulestosatisfy
+MATCH (u:User {userId:user})
+CREATE UNIQUE (u)-[:BELONGS_TO]->(cag);
+		 
+		 ````
+	</p> 
+	</div>
+	
+</div>   
+  
