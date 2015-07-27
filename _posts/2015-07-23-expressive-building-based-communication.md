@@ -2,14 +2,19 @@
 title: Expressive building-based communication
 layout: post
 ---
+
 <div class="row">
+
   <div class="large-4 columns">
     <img src="/assets/img/buildinggraph.png"/>
   </div>
+  
   <div class="large-6 columns">
-    <p> The ability to appropriately define and create discrete groups of users is a fundamental part of what makes <strong>roomcast<strong> so powerful. This blog visits some of our design decisions and relates them to the underlying code used to support them.  With <strong>roomcast</strong>, the communication system must make it easy for us to define groups of users in ways that makes sense to a residential development.  There are lots of quite complex ways that we might reason about an intended recipient.  Groups might be defined spatially : 'all the users living on the first floor' or 'all the users living on the second floors of block A and block B'.  But we might also might also wish to target users based on a particular attribute: 'the person who's registration number is XYZ ABC'.  Or it could be a combination of attributes: 'All female users living on the second floors of block A and block B'.  We could conceivably wish to reach out to users based upon spatial relationships, so for example all landlords of apartments directly beneath apartment 56.   Once we have this richness of expression, it will be easy to distribute buttons(and messages) to very select parts of the community.  This is a key part of what makes <strong> roomcast </strong> so flexible </p>
+    <p> The ability to appropriately define and create discrete groups of users is a fundamental part of what makes <strong>roomcast</strong> so powerful. This blog visits some of our design decisions and relates them to the underlying code used to support them.  With <strong>roomcast</strong>, the communication system must make it easy for us to define groups of users in ways that makes sense to a residential development.  There are lots of quite complex ways that we might reason about an intended recipient.  Groups might be defined spatially : 'all the users living on the first floor' or 'all the users living on the second floors of block A and block B'.  But we might also might also wish to target users based on a particular attribute: 'the person who's registration number is XYZ ABC'.  Or it could be a combination of attributes: 'All female users living on the second floors of block A and block B'.  We could conceivably wish to reach out to users based upon spatial relationships, so for example all landlords of apartments directly beneath apartment 56.   Once we have this richness of expression, it will be easy to distribute buttons(and messages) to very select parts of the community.  This is a key part of what makes <strong> roomcast </strong> so flexible </p>
   </div>
+
 </div>
+
 <div class="row">
   <div class="large-6 columns">
 	<p>
@@ -26,8 +31,7 @@ layout: post
 	<div class="large-10 columns">
 		 <p> Next is building in support for expressive recipient lists.  These can all be formed from combinations of the core Accessgroups.  Let's say we want to create a button that can only be used by female tenants and owners on the first or second floor of block A.  Clearly  it's not simply a case of sending a message to all of the access groups that are implicated (i.e. female, tenants, owners, first floor, second floor, block A) - since this would unintended recipients (such as people on the first floor who are not female). Instead, we need to break the intention down, into a set of rules joined together by ANDs and ORs: tenants <strong> OR </strong> owners <strong> AND </strong> females <strong> AND </strong> in block A <strong> AND </strong> on the first <strong> OR </strong> second floor. So we <strong>OR</strong> the access groups that are of the same type and <strong>AND</strong> the access groups of different types. </p>
 	</div>
-
-</div>  	
+</div>
 
 <div class="row">
 	<div class="large-4 columns">
@@ -39,7 +43,7 @@ layout: post
 		 <p> To represent to rules that have been used to create one of these access groups, we can build a tree, with a root node.  All children of the root node will be ANDed together, and all children of those children will be ORed.  When a new user joins, we simply evaluate whether they exist in each of the AND branches (by ORing together all of the leaf nodes), and if they do, then they can be added.  To accomplish this with a cypher query, we do the following: for each of the AND branches, collect together all users that satisfy membership. Then return all users that are found at least once in each branch.  These are the users that satisfy the conditions of the rule.   In the following code we first create a bunch of rules which are just memberships of access groups.  We then create some CompositeAccessGroups - which are like AccessGroups except that they have a tree of the rules that were used to create them.  The final query shows how we then add the relevant users to the CompositeAccessGroups.
 		 </p>
 		 <p>
-		 ````
+		 <pre>
 //create sets of rule (combinations of access groups)
 CREATE  (owners)<-[:IN]-(t1:Rule {name:'ownersandtenants_rule'})-[:IN]->(tenants)
 CREATE  (firstfloor)<-[:IN]-(t2:Rule {name:'firstfloor_rule'})
@@ -76,7 +80,7 @@ MATCH (u:User {userId:user})
 CREATE UNIQUE (u)-[:BELONGS_TO]->(cag);
 		 
 		 ````
-	</p> 
+	</pre> 
 	</div>
 	
 </div>   
