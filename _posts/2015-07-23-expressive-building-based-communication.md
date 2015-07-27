@@ -17,6 +17,7 @@ layout: post
 <div class="row">
 
   <div class="large-10 columns">
+  <p>
  But we might also might also wish to target users based on a particular attribute: 'the person who's registration number is XYZ ABC'.  Or it could be a combination of attributes: 'All female users living on the second floors of block A and block B'.  We could conceivably wish to reach out to users based upon spatial relationships, so for example all landlords of apartments directly beneath apartment 56.   Once we have this richness of expression, it will be easy to distribute buttons(and messages) to very select parts of the community.  This is a key part of what makes <strong> roomcast </strong> so flexible </p>
  </div>
 </div>
@@ -40,10 +41,10 @@ layout: post
 </div>
 
 <div class="row">
-	<div class="row">
+	<div class="large-5 columns">
 		 <img src="/assets/img/rules.png"/>
 	</div>
-	<div class="large-6 columns">
+	<div class="large-5 columns">
 		 <p> One problem we have is, once a button or message has been sent to one of these more complex access groups we need to make sure that we store all of the recipients, so that we can use it again and so that we know exactly who got a particular message or button.  One way of accomplishing this is to simply create a new AccessGroup with all the implicated users as members.  The problem with this is what happens when a new user joins?  We can easily add them to the relevant core access groups, but we can't know whether they should also belong to the more complex access groups unless we can somehow record the logic that was used to generate them in the first place. </p> 
 	</div>
 </div>   
@@ -91,5 +92,6 @@ CREATE UNIQUE (u)-[:BELONGS_TO]->(cag);
 		 
 		 ````
 	</pre> 
+	</p>
   </div>
 </div>
